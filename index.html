@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Environmental Impact Calculator</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container d-flex">
+            <div class="nav-brand">
+                <i class="fas fa-leaf"></i>
+                <span>EcoJourney Impact</span>
+            </div>
+            <div class="nav-tag">
+                Life Cycle Assessment (LCA) / Sustainability Calculator
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-badge">
+                <i class="fas fa-seedling"></i> Environmental Sustainability Calculator
+            </div>
+            <h1 class="hero-title">Vehicle Environmental Impact Calculator</h1>
+            <p class="hero-subtitle">Measure the environmental impact of your journey from Point A to Point B.</p>
+            <a href="#calculator" class="btn-hero">
+                <i class="fas fa-calculator"></i> Calculate Your Impact
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="container main-content">
+
+        <!-- 2 & 3. Calculator Input Card -->
+        <section id="calculator" class="calculator-card">
+            
+            <!-- Inline Validation Alert Box -->
+            <div id="error-container" class="alert-container">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="error-message">Please enter valid inputs.</span>
+            </div>
+
+            <form id="calculator-form" onsubmit="return false;">
+                
+                <!-- Journey Inputs Header -->
+                <div class="card-section-title">
+                    <i class="fas fa-route"></i> 1. Journey Locations & Distance
+                </div>
+
+                <div class="form-grid">
+                    <!-- Starting Point -->
+                    <div class="form-group">
+                        <label for="start-location" class="form-label">
+                            From (Starting Point)
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-map-marker-alt input-icon"></i>
+                            <input type="text" id="start-location" class="form-control" placeholder="e.g. Palakkad" required>
+                        </div>
+                    </div>
+
+                    <!-- Destination -->
+                    <div class="form-group">
+                        <label for="destination-location" class="form-label">
+                            To (Destination)
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-flag-checkered input-icon"></i>
+                            <input type="text" id="destination-location" class="form-control" placeholder="e.g. Thrissur" required>
+                        </div>
+                    </div>
+
+                    <!-- Travel Distance -->
+                    <div class="form-group">
+                        <label for="distance-input" class="form-label">
+                            <span>Distance</span>
+                            <span id="distance-badge" class="badge badge-outline-secondary">User-provided distance</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-road input-icon"></i>
+                            <input type="number" id="distance-input" class="form-control" placeholder="e.g. 92" step="0.1" min="0.1" required>
+                            <span class="unit-badge">km</span>
+                        </div>
+                        <div class="distance-action-row">
+                            <button type="button" id="btn-fetch-route" class="btn btn-secondary btn-small">
+                                <i class="fas fa-map-marked-alt"></i> Estimate Route Distance (OSRM)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Test Presets -->
+                <div class="preset-container">
+                    <div class="preset-title">Quick Test Presets (1-Click Fill):</div>
+                    <div class="preset-pills">
+                        <button type="button" class="preset-btn" data-from="Palakkad" data-to="Thrissur" data-distance="65">
+                            <i class="fas fa-car"></i> Palakkad → Thrissur (65 km)
+                        </button>
+                        <button type="button" class="preset-btn" data-from="New York" data-to="Philadelphia" data-distance="152">
+                            <i class="fas fa-car"></i> New York → Philadelphia (152 km)
+                        </button>
+                        <button type="button" class="preset-btn" data-from="Mumbai" data-to="Pune" data-distance="148">
+                            <i class="fas fa-car"></i> Mumbai → Pune (148 km)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Vehicle Details Header -->
+                <div class="card-section-title" style="margin-top: 36px;">
+                    <i class="fas fa-car-side"></i> 2. Vehicle & Fuel Specifications
+                </div>
+
+                <div class="form-grid">
+                    <!-- Vehicle Type -->
+                    <div class="form-group">
+                        <label for="vehicle-type" class="form-label">Vehicle Type</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-truck-pickup input-icon"></i>
+                            <select id="vehicle-type" class="form-control">
+                                <option value="car" selected>Car</option>
+                                <option value="motorcycle">Motorcycle</option>
+                                <option value="bus">Bus</option>
+                                <option value="truck">Truck</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Fuel / Energy Type -->
+                    <div class="form-group">
+                        <label for="fuel-type" class="form-label">Fuel / Energy Type</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-gas-pump input-icon"></i>
+                            <select id="fuel-type" class="form-control">
+                                <!-- Populated dynamically by app.js -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Efficiency / Mileage -->
+                    <div class="form-group">
+                        <label for="efficiency-input" class="form-label">
+                            <span id="efficiency-label">Fuel Efficiency</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-tachometer-alt input-icon"></i>
+                            <input type="number" id="efficiency-input" class="form-control" placeholder="15.0" step="0.01" min="0.01" required>
+                            <span id="efficiency-unit-badge" class="unit-badge">km/l</span>
+                        </div>
+                        <span id="efficiency-help-text" class="help-text">Average efficiency rating for this vehicle type</span>
+                    </div>
+                </div>
+
+                <!-- 5. Calculate & Reset Buttons -->
+                <div class="button-group">
+                    <button type="submit" id="btn-calculate" class="btn btn-primary">
+                        <i class="fas fa-leaf"></i> Calculate Environmental Impact
+                    </button>
+                    <button type="button" id="btn-reset" class="btn btn-secondary">
+                        <i class="fas fa-rotate-left"></i> Reset Calculator
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- 6. RESULTS DASHBOARD SECTION -->
+        <section id="results-dashboard" class="results-dashboard">
+            
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Journey Impact Results</h2>
+                <p class="dashboard-subtitle">Estimated greenhouse gas emissions breakdown for your journey</p>
+            </div>
+
+            <!-- Metric Cards Grid -->
+            <div class="dashboard-grid">
+                
+                <!-- Main Impact Hero Metric -->
+                <div class="metric-card hero-metric-card">
+                    <div class="hero-metric-title">Environmental Impact</div>
+                    <div id="res-co2e" class="hero-metric-value">0.00 kg CO₂e</div>
+                    <div class="hero-tree-banner">
+                        <i class="fas fa-tree"></i>
+                        <span>Equivalent to <strong id="res-tree-days">0 tree-days</strong> of carbon absorption</span>
+                    </div>
+                </div>
+
+                <!-- Journey Detail Card -->
+                <div class="metric-card col-span-3">
+                    <div class="metric-label"><i class="fas fa-map-signs"></i> Journey</div>
+                    <div id="res-journey" class="metric-value" style="font-size: 1.25rem;">Point A → Point B</div>
+                    <div class="metric-sub">Origin & Destination</div>
+                </div>
+
+                <!-- Distance Detail Card -->
+                <div class="metric-card col-span-3">
+                    <div class="metric-label"><i class="fas fa-ruler-horizontal"></i> Travel Distance</div>
+                    <div id="res-distance" class="metric-value">0 km</div>
+                    <div class="metric-sub">Road distance</div>
+                </div>
+
+                <!-- Vehicle & Fuel Card -->
+                <div class="metric-card col-span-3">
+                    <div class="metric-label"><i class="fas fa-car-side"></i> Vehicle Setup</div>
+                    <div id="res-vehicle-fuel" class="metric-value" style="font-size: 1.25rem;">Petrol Car</div>
+                    <div class="metric-sub">Vehicle & Energy type</div>
+                </div>
+
+                <!-- Energy / Fuel Used Card -->
+                <div class="metric-card col-span-3">
+                    <div class="metric-label"><i class="fas fa-oil-can"></i> Energy/Fuel Consumed</div>
+                    <div class="metric-value">
+                        <span id="res-consumption">0.00</span>
+                        <span id="res-consumption-unit" style="font-size: 1rem; color: var(--text-muted);">litres</span>
+                    </div>
+                    <div class="metric-sub">Total energy consumed</div>
+                </div>
+
+            </div>
+
+            <!-- 7. CHART VISUALIZATION CARD -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">
+                        <i class="fas fa-chart-bar" style="color: var(--primary-emerald);"></i>
+                        <span>Journey Environmental Impact Breakdown</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="main-impact-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- 8. VEHICLE COMPARISON SECTION -->
+            <div class="comparison-section">
+                <div class="dashboard-header" style="margin-top: 40px;">
+                    <h2 class="dashboard-title">Compare Vehicle Impact</h2>
+                    <p class="dashboard-subtitle">Estimated emissions for the same journey distance across alternative vehicle types</p>
+                </div>
+
+                <!-- Comparison Cards Grid -->
+                <div id="comparison-cards-container" class="comparison-grid">
+                    <!-- Populated dynamically by app.js -->
+                </div>
+
+                <!-- Comparison Bar Chart Card -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <i class="fas fa-chart-line" style="color: var(--primary-emerald);"></i>
+                            <span>Comparative Journey CO₂e Emissions</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="comparison-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. ENVIRONMENTAL EXPLANATION CARD -->
+            <div class="about-card">
+                <h3><i class="fas fa-info-circle" style="color: var(--accent-blue);"></i> About Your Result</h3>
+                <p>
+                    This value is an estimated environmental impact of your journey based on travel distance, vehicle efficiency, energy/fuel type, and selected emission factors.
+                </p>
+                <div class="factor-source-box">
+                    <strong>Configured Emission Factor Source:</strong>
+                    <span id="res-factor-source">UK DEFRA / US EPA Greenhouse Gas Inventory Guidelines</span>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>Vehicle Environmental Impact Calculator</strong></p>
+            <p class="footer-tag">Built with HTML5, CSS3, Vanilla JavaScript & Chart.js | Pure Frontend Application</p>
+        </div>
+    </footer>
+
+    <!-- External Chart.js Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Application JavaScript Files -->
+    <script src="js/factors.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
