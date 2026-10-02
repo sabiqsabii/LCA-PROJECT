@@ -14,7 +14,7 @@ var emissionFactors = {
         value: 2.31,
         unit: "kg CO2e/litre",
         source: "UK DEFRA & US EPA Greenhouse Gas Inventory Guidelines (2023)",
-        description: "Direct greenhouse gas emissions per litre of motor petrol combusted."
+++        description: "Direct greenhouse gas emissions per litre of motor petrol combusted."
     },
     diesel: {
         name: "Diesel",
